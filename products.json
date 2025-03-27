@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "title": "Laptop Gamer",
+    "description": "Laptop con procesador i7 y 16GB RAM",
+    "code": "LAP123",
+    "price": 1500,
+    "status": true,
+    "stock": 10,
+    "category": "Electrónica",
+    "thumbnails": [
+      "images/laptop1.png",
+      "images/laptop2.png"
+    ]
+  },
+  {
+    "id": "2",
+    "title": "Laptop Lenovo",
+    "description": "Laptop con procesador i7 y 16GB RAM",
+    "code": "LAP124",
+    "price": 1350,
+    "status": true,
+    "stock": 10,
+    "category": "Electrónica",
+    "thumbnails": [
+      "images/laptop3.png",
+      "images/laptop4.png"
+    ]
+  }
+]
