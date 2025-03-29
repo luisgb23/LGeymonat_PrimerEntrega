@@ -26,5 +26,19 @@
       "images/laptop3.png",
       "images/laptop4.png"
     ]
+  },
+  {
+    "id": "3",
+    "title": "Macbook Air M2 ",
+    "description": "Macbook Air Chip M2 8B RAM",
+    "code": "LAP130",
+    "price": 2500,
+    "status": true,
+    "stock": 10,
+    "category": "Electrónica",
+    "thumbnails": [
+      "images/laptop10.png",
+      "images/laptop11.png"
+    ]
   }
 ]

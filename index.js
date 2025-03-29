@@ -1,64 +1,60 @@
 const express = require('express');
-const ProductManager = require('./productManager');
-const CartManager = require('./cartManager');
-
 const app = express();
 const PORT = 8080;
-const productManager = new ProductManager('./products.json');
-const cartManager = new CartManager('./carts.json');
 
 app.use(express.json());
 
-// Product Routes
-const productRouter = express.Router();
-productRouter.get('/', (req, res) => {
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+const ProductManager = require('./ProductManager');
+const CartManager = require('./CartManager');
+
+const productManager = new ProductManager('./products.json');
+const cartManager = new CartManager('./carts.json');
+
+
+// Product Endpoints
+app.get('/api/products', (req, res) => {
     const products = productManager.getAllProducts();
     res.json(products);
 });
 
-productRouter.get('/:pid', (req, res) => {
+app.get('/api/products/:pid', (req, res) => {
     const product = productManager.getProductById(req.params.pid);
-    product ? res.json(product) : res.status(404).send('Product not found');
+    product ? res.json(product) : res.status(404).send('No existe el producto');
 });
 
-productRouter.post('/', (req, res) => {
+app.post('/api/products', (req, res) => {
     const newProduct = productManager.addProduct(req.body);
     res.status(201).json(newProduct);
 });
 
-productRouter.put('/:pid', (req, res) => {
+app.put('/api/products/:pid', (req, res) => {
     const updatedProduct = productManager.updateProduct(req.params.pid, req.body);
-    updatedProduct ? res.json(updatedProduct) : res.status(404).send('Product not found');
+    updatedProduct ? res.json(updatedProduct) : res.status(404).send('No existe el producto');
 });
 
-productRouter.delete('/:pid', (req, res) => {
+app.delete('/api/products/:pid', (req, res) => {
     const result = productManager.deleteProduct(req.params.pid);
-    result ? res.status(204).send() : res.status(404).send('Product not found');
+    result ? res.status(204).send() : res.status(404).send('No existe el producto');
 });
 
-app.use('/api/products', productRouter);
 
-// Cart Routes
-const cartRouter = express.Router();
-cartRouter.post('/', (req, res) => {
+// Cart Endpoints
+app.post('/api/carts', (req, res) => {
     const newCart = cartManager.createCart();
     res.status(201).json(newCart);
 });
 
-cartRouter.get('/:cid', (req, res) => {
+app.get('/api/carts/:cid', (req, res) => {
     const cart = cartManager.getCartById(req.params.cid);
-    cart ? res.json(cart) : res.status(404).send('Cart not found');
+    cart ? res.json(cart) : res.status(404).send('No existe el carrito');
 });
 
-cartRouter.post('/:cid/product/:pid', (req, res) => {
+app.post('/api/carts/:cid/product/:pid', (req, res) => {
     const { cid, pid } = req.params;
     const result = cartManager.addProductToCart(cid, pid);
-    result ? res.json(result) : res.status(404).send('Cart or Product not found');
-});
-
-app.use('/api/carts', cartRouter);
-
-// Start server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    result ? res.json(result) : res.status(404).send('El carrito o el producto no existe');
 });

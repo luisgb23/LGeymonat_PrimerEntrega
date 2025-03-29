@@ -5,47 +5,47 @@ class ProductManager {
         this.filePath = filePath;
     }
 
-    _readFile() {
+    readFile() {
         if (!fs.existsSync(this.filePath)) return [];
         const data = fs.readFileSync(this.filePath);
         return JSON.parse(data);
     }
 
-    _writeFile(data) {
+    writeFile(data) {
         fs.writeFileSync(this.filePath, JSON.stringify(data, null, 2));
     }
 
     getAllProducts() {
-        return this._readFile();
+        return this.readFile();
     }
 
     getProductById(id) {
-        const products = this._readFile();
+        const products = this.readFile();
         return products.find(product => product.id === id);
     }
 
     addProduct(productData) {
-        const products = this._readFile();
+        const products = this.readFile();
         const newProduct = { id: (products.length + 1).toString(), ...productData };
         products.push(newProduct);
-        this._writeFile(products);
+        this.writeFile(products);
         return newProduct;
     }
 
     updateProduct(id, updatedData) {
-        const products = this._readFile();
+        const products = this.readFile();
         const index = products.findIndex(product => product.id === id);
         if (index === -1) return null;
         products[index] = { ...products[index], ...updatedData, id }; // Prevent id update
-        this._writeFile(products);
+        this.writeFile(products);
         return products[index];
     }
 
     deleteProduct(id) {
-        const products = this._readFile();
+        const products = this.readFile();
         const newProducts = products.filter(product => product.id !== id);
         if (products.length === newProducts.length) return false;
-        this._writeFile(newProducts);
+        this.writeFile(newProducts);
         return true;
     }
 }
