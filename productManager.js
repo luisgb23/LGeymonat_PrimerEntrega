@@ -36,7 +36,7 @@ class ProductManager {
         const products = this.readFile();
         const index = products.findIndex(product => product.id === id);
         if (index === -1) return null;
-        products[index] = { ...products[index], ...updatedData, id }; // Prevent id update
+        products[index] = { ...products[index], ...updatedData, id }; 
         this.writeFile(products);
         return products[index];
     }
